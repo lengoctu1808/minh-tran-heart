@@ -1,71 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Anh là định mệnh 💜</title>
   <style>
     body {
       margin: 0;
-      background: black;
       overflow: hidden;
+      background: black;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
     }
-    canvas { display: block; }
-    #audio {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      opacity: 0.7;
+    h1 {
+      font-size: 3rem;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .heart {
+      position: absolute;
+      color: pink;
+      animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10px;
+        opacity: 1;
+      }
+      100% {
+        top: 100vh;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
-  <audio id="audio" controls autoplay loop>
-    <source src="https://dl.dropboxusercontent.com/scl/fi/80gx9n1jpn0af8pdn9gjg/Tinh-Dau-Mot-Tinh-Yeu-Khac-LyLy.mp3?rlkey=qepns5ogbdj3vtur4k26hyyfy&st=fn2igdh3&dl=0" type="audio/mp3">
-    Trình duyệt không hỗ trợ audio.
-  </audio>
+  <h1>Anh là định mệnh 💜</h1>
+
+  <iframe width="0" height="0" src="https://www.youtube.com/embed/__kGJZ-kPno?autoplay=1&loop=1&playlist=__kGJZ-kPno" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+
   <script>
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💜";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 10 + "px";
+      document.body.appendChild(heart);
 
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789❤💜";
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = Array(columns).fill(1);
-
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#cc66ff";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-
-      // Dòng chữ giữa màn hình
-      const msg = "Anh là định mệnh 💜";
-      ctx.font = "48px Arial";
-      ctx.fillStyle = "#FF66CC";
-      const w = ctx.measureText(msg).width;
-      ctx.fillText(msg, (canvas.width - w) / 2, canvas.height / 2);
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
     }
 
-    setInterval(draw, 50);
-
-    window.addEventListener("resize", () => {
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-    });
+    setInterval(createHeart, 200);
   </script>
 </body>
 </html>
