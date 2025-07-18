@@ -2,57 +2,75 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Minh Trang 🎉</title>
+  <title>Chúc mừng sinh nhật</title>
   <style>
     body {
       margin: 0;
-      background: black;
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
+      background: #000;
       color: white;
+      font-family: 'Arial', sans-serif;
       text-align: center;
+      overflow: hidden;
     }
 
-    #message {
+    .start-btn {
       position: absolute;
-      top: 40%;
-      width: 100%;
-      font-size: 2em;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      padding: 15px 30px;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .content {
       opacity: 0;
-      transition: opacity 1s;
+      transition: opacity 1s ease-in;
+      margin-top: 100px;
     }
 
     .heart {
-      width: 10px;
-      height: 10px;
       position: fixed;
-      background: red;
+      width: 15px;
+      height: 15px;
+      background: pink;
       transform: rotate(45deg);
       animation: fall 5s linear infinite;
     }
 
-    .heart::before, .heart::after {
+    .heart::before,
+    .heart::after {
       content: '';
-      width: 10px;
-      height: 10px;
-      background: red;
       position: absolute;
+      width: 15px;
+      height: 15px;
+      background: pink;
       border-radius: 50%;
     }
 
     .heart::before {
-      top: -5px;
+      top: -7.5px;
       left: 0;
     }
 
     .heart::after {
-      left: -5px;
+      left: -7.5px;
       top: 0;
     }
 
     @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
+      0% {
+        top: -10px;
+        left: calc(100vw * var(--rand));
+        opacity: 1;
+      }
+      100% {
+        top: 100vh;
         opacity: 0;
       }
     }
@@ -60,51 +78,62 @@
 </head>
 <body>
 
-<audio autoplay loop>
-  <source src="https://dl.dropboxusercontent.com/scl/fi/t50tohn85f6i59qj7jqbo/nhac-nen.mp3?rlkey=0xzq3oxpn1z7f1tbk15gl4zsh&dl=0" type="audio/mpeg">
-  Trình duyệt của bạn không hỗ trợ âm thanh.
-</audio>
+<button class="start-btn" onclick="start()">Bắt đầu</button>
 
-<div id="message">Bắt đầu...</div>
+<div class="content" id="mainContent">
+  <h1 id="countdown">3</h1>
+  <h2 id="birthday"></h2>
+  <h3 id="date"></h3>
+  <h3 id="wish"></h3>
+  <h2 id="final"></h2>
+</div>
+
+<audio id="bgm" src="https://docs.google.com/uc?export=download&id=1p50sS7_HlQEVgZwzRZ7ATGmRUMuRyn5E" preload="auto"></audio>
 
 <script>
-  const messages = [
-    "3...",
-    "2...",
-    "1...",
-    "🎉 Happy Birthday 🎉",
-    "11/01/2001",
-    "Minh Trang",
-    "Chúc mọi điều tốt lành sẽ đến với anh 💫",
-    "Anh là định mệnh của em 💜"
-  ];
+  function start() {
+    document.querySelector('.start-btn').style.display = 'none';
+    document.getElementById('bgm').play();
+    document.getElementById('mainContent').style.opacity = 1;
 
-  let i = 0;
-  const messageEl = document.getElementById("message");
+    // Thả tim
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.setProperty('--rand', Math.random());
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }, 300);
 
-  function showNextMessage() {
-    if (i < messages.length) {
-      messageEl.innerText = messages[i];
-      messageEl.style.opacity = 1;
-      setTimeout(() => {
-        messageEl.style.opacity = 0;
-        i++;
-        setTimeout(showNextMessage, 1000);
-      }, 2000);
-    }
+    // Chạy nội dung lần lượt
+    let countdown = 3;
+    const cdElem = document.getElementById('countdown');
+    const birthday = document.getElementById('birthday');
+    const date = document.getElementById('date');
+    const wish = document.getElementById('wish');
+    const final = document.getElementById('final');
+
+    const step = () => {
+      if (countdown > 0) {
+        cdElem.textContent = countdown--;
+        setTimeout(step, 1000);
+      } else {
+        cdElem.style.display = 'none';
+        birthday.textContent = '🎉 Happy Birthday 🎉';
+        setTimeout(() => {
+          date.textContent = '11/01/2001 - Minh Trang';
+        }, 1500);
+        setTimeout(() => {
+          wish.textContent = 'Chúc mọi điều tốt lành sẽ đến với anh 💕';
+        }, 3000);
+        setTimeout(() => {
+          final.textContent = 'Anh là định mệnh của em 💜';
+        }, 4500);
+      }
+    };
+
+    step();
   }
-
-  showNextMessage();
-
-  // Tạo hiệu ứng trái tim rơi
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
-  }, 200);
 </script>
 
 </body>
