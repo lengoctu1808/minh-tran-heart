@@ -1,74 +1,152 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anh là định mệnh 💜</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday</title>
   <style>
-    body {
+    * {
       margin: 0;
-      overflow: hidden;
-      background: black;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #000;
       color: white;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    h1, h2, h3, p {
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+    }
+    .countdown span {
+      font-size: 5rem;
+      font-weight: bold;
+      opacity: 0;
+      animation: countdownAnim 1s ease forwards;
+    }
+    .countdown span:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .countdown span:nth-child(2) {
+      animation-delay: 1s;
+    }
+    .countdown span:nth-child(3) {
+      animation-delay: 2s;
     }
     h1 {
-      font-size: 3rem;
-      animation: fadeIn 2s ease-in-out;
+      animation-delay: 3.5s;
+    }
+    h2 {
+      animation-delay: 5s;
+    }
+    h3 {
+      animation-delay: 6.5s;
+    }
+    p {
+      animation-delay: 8s;
+    }
+    .final {
+      font-size: 2rem;
+      margin-top: 30px;
+      animation-delay: 10s;
+      color: #ff69b4;
+    }
+    @keyframes countdownAnim {
+      to {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
     }
     .heart {
       position: absolute;
-      color: pink;
+      width: 15px;
+      height: 15px;
+      background: pink;
+      transform: rotate(45deg);
       animation: fall 5s linear infinite;
     }
-
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -7.5px;
+      left: 0;
+    }
+    .heart::after {
+      left: -7.5px;
+      top: 0;
+    }
     @keyframes fall {
       0% {
-        top: -10px;
+        top: -10%;
         opacity: 1;
+        transform: rotate(45deg) translateX(0);
       }
       100% {
-        top: 100vh;
+        top: 110%;
         opacity: 0;
-      }
-    }
-
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
+        transform: rotate(45deg) translateX(100px);
       }
     }
   </style>
 </head>
 <body>
-  <h1>Anh là định mệnh 💜</h1>
+  <div class="countdown">
+    <span>3</span>
+    <span>2</span>
+    <span>1</span>
+  </div>
+  <h1>🎉 Happy Birthday 🎉</h1>
+  <h2>11/01/2001</h2>
+  <h3>Minh Trang</h3>
+  <p>Chúc mọi điều tốt lành sẽ đến với anh</p>
+  <div class="final">💜 Anh là định mệnh của em 💜</div>
 
-  <iframe width="0" height="0" src="https://www.youtube.com/embed/__kGJZ-kPno?autoplay=1&loop=1&playlist=__kGJZ-kPno" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+  <div class="hearts"></div>
+
+  <audio autoplay loop>
+    <source src="https://docs.google.com/uc?export=open&id=1z6yzq8RPVUl_Nmra_GIT-KsL04JuKwn2" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ âm thanh.
+  </audio>
 
   <script>
+    // Rơi tim
+    const heartsContainer = document.querySelector('.hearts');
     function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "💜";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 10 + "px";
-      document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 5000);
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      heartsContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
     }
-
     setInterval(createHeart, 200);
   </script>
 </body>
